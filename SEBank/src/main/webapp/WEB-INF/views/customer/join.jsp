@@ -6,19 +6,20 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form>
+
+<form action="join" method="post">
 
 <table>
 
 <tr>
 	<th>ID</th>
 	<td>
-		<input type="text" id="id" name="id" placeholder="ID 중복확인 이름">
+		<input type="text" id="custid" name="custid" placeholder="ID 중복확인 이름">
 		<input type="button" value="ID 중복 확인">
 	</td>
 </tr>
 <tr>
-	<th colspan="2">비밀번호</th>
+	<th rowspan="2">비밀번호</th>
 	<td><input type="password" id="password" name="password" placeholder="비밀번호 입력"></td>
 </tr>
 <tr>
@@ -35,13 +36,13 @@
 <tr>
 	<th>고객구분</th>
 	<td>
-		<input type="checkbox" id="division" name="division" value="personal">개인
-		<input type="checkbox" id="division" name="division" value="company">기업
+		<input type="radio" id="division" name="division" value="personal">개인
+		<input type="radio" id="division" name="division" value="company">기업
 	</td>
 </tr>
 <tr>
 	<th>식별번호</th>
-	<td><input type="text" id="id" name="id" placeholder="개인 : 주민번호, 기업: 사업자번호"></td>
+	<td><input type="text" id="idno" name="idno" placeholder="개인 : 주민번호, 기업: 사업자번호"></td>
 </tr>
 <tr>
 	<th>주소</th>

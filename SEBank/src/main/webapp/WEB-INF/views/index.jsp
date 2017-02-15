@@ -8,6 +8,10 @@
 </head>
 <body>
 
+<c:if test="${not empty logoutresult}">
+<h1>${logoutresult}</h1>
+</c:if>
+
 <h2>[springWeb5 - SE Bank Step4 ]</h2>
 
 <c:if test="${not empty loginId}">${loginName}(${loginId})님 로그인 중 <br><br></c:if>

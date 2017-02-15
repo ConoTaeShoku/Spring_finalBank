@@ -9,7 +9,7 @@
 
 <h2>[로그인]</h2>
 
-<form>
+<form action="login" method="post">
 	<table>
 	<tr>
 		<td>ID</td>
