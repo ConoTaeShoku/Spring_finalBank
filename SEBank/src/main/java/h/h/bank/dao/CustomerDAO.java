@@ -8,7 +8,9 @@ public interface CustomerDAO {
 
 	public int insert(Customer c) throws Exception;
 
-	public Customer select(String custid, String password) throws Exception;
+	public Customer login(String custid, String password) throws Exception;
+	
+	public Customer select(String custid) throws Exception;
 
 	public int update(Customer c) throws Exception;
 

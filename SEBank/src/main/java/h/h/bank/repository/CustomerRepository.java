@@ -20,19 +20,28 @@ public class CustomerRepository {
 		int result = 0;
 		try {
 			result = cd.insert(c);
-			System.out.println("cr 성공");
 		} catch (Exception e ) {
 			return 0;
 		}
 		return result;
 	}
 	
-	public Customer select(String custid, String password) {
+	public Customer login(String custid, String password) {
 		CustomerDAO cd = sqlSession.getMapper(CustomerDAO.class);
 		Customer result = null;
 		try {
-			result = cd.select(custid, password);
-			System.out.println("cr 성공");
+			result = cd.login(custid, password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public Customer select(String custid) {
+		CustomerDAO cd = sqlSession.getMapper(CustomerDAO.class);
+		Customer result = null;
+		try {
+			result = cd.select(custid);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -44,7 +53,6 @@ public class CustomerRepository {
 		int result = 0;
 		try {
 			result = cd.update(c);
-			System.out.println("cr 성공");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,7 +65,6 @@ public class CustomerRepository {
 		int result = 0;
 		try {
 			result = cd.delete(custid, password);
-			System.out.println("cr 성공");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,7 +76,6 @@ public class CustomerRepository {
 		List<Customer> clist = null;
 		try {
 			clist = cd.clist();
-			System.out.println("cr 성공");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

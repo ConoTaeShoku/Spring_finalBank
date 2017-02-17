@@ -8,8 +8,9 @@
 </head>
 <body>
 
-<c:if test="${not empty logoutresult}">
-<h1>${logoutresult}</h1>
+<c:if test="${not empty result}">
+<script>alert('${result}');</script>
+<c:remove var="result" scope="session" />
 </c:if>
 
 <h2>[springWeb5 - SE Bank Step4 ]</h2>
@@ -24,10 +25,10 @@
 	
 	<c:if test="${not empty loginId}">
 		<li><a href="logout">로그아웃</a></li>
-		<li><a href="#">개인 정보 수정</a></li>
+		<li><a href="update">개인 정보 수정</a></li>
 	</c:if>
 	
-	<li><a href="#">게시판</a></li>
+	<li><a href="main">게시판</a></li>
 </ul>
 
 </body>

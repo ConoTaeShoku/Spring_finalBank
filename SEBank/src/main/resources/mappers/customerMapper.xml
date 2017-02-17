@@ -10,8 +10,12 @@
 		VALUES (#{custid}, #{password}, #{name}, #{email}, #{division}, #{idno}, #{address})
 	</insert>
 	
-	<select id="select" resultType="Customer">
+	<select id="login" resultType="Customer">
 		SELECT * FROM SB_CUSTOMER WHERE custid=#{0} AND password=#{1}
+	</select>
+	
+	<select id="select" resultType="Customer">
+		SELECT * FROM SB_CUSTOMER WHERE custid=#{custid}
 	</select>
 	
 	<update id="update" parameterType="Customer">

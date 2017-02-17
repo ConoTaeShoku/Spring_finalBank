@@ -1,1 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="h.h.bank.dao.BoardDAO">
+
+	<insert id="insert" parameterType="Board">
+		INSERT INTO SB_BOARD (boardnum, custid, title, content)
+		VALUES (sb_board_seq.nextval, #{custid}, #{title}, #{content})
+	</insert>
+	
+	<select id="select" resultType="Board">
+		SELECT * FROM SB_BOARD WHERE boardnumm=#{boardnum}
+	</select>
+	
+	<update id="update" parameterType="Board">
+		UPDATE SB_BOARD SET title=#{title}, content=#{content}
+		WHERE boardnum=#{boardnum}
+	</update>
+	
+	<delete id="delete" parameterType="Board">
+		DELETE FROM SB_BOARD WHERE boardnum=#{boardnum}
+	</delete>
+	
+	<select id="blist" resultType="Board">
+		SELECT * FROM SB_BOARD ORDER BY inputdate 
+	</select>
+
+	<select id="getCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM SB_BOARD
+	</select>
+	
+	<update id="addHits" parameterType="int">
+		UPDATE SB_BOARD SET hits=(#{hits}+1)
+		WHERE boardnum=#{boardnum}
+	</update>
+	
+</mapper>
