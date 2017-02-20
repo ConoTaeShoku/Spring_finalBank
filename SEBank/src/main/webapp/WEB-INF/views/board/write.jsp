@@ -25,7 +25,7 @@ function formCheck() {
 <h2>[게시판 글 쓰기]</h2>
 <br>
 <form action="insertB" method="post">
-	<input type="hidden" name="id" id="id" value="${loginId}" />
+	<input type="hidden" name="custid" id="custid" value="${loginId}" />
 	<table>
 		<tr>
 			<td>제목</td>

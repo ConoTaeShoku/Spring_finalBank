@@ -23,10 +23,23 @@
 		DELETE FROM SB_BOARD WHERE boardnum=#{boardnum}
 	</delete>
 	
-	<select id="blist" resultType="Board">
-		SELECT * FROM SB_BOARD ORDER BY inputdate 
-	</select>
-
+<select id="blist" resultType="Board" parameterType="map">
+	SELECT * FROM SB_BOARD
+	<if test="searchTitle != null and searchText != null">
+	<choose>
+		<when test="searchTitle == 'custid'">
+		 WHERE custid like '%'||#{searchText}||'%'
+		</when>
+		<when test="searchTitle == 'title'">
+		 WHERE title like '%'||#{searchText}||'%'
+		</when>
+		<when test="searchTitle == 'content'">
+		 WHERE content like '%'||#{searchText}||'%'
+		</when>
+	</choose>
+	</if>
+</select>
+	
 	<select id="getCount" parameterType="String" resultType="int">
 		SELECT COUNT(*) FROM SB_BOARD
 	</select>

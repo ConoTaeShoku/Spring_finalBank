@@ -1,6 +1,8 @@
 package h.h.bank.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,15 +62,24 @@ public class BoardRepository {
 		return result;
 	}
 
-	public List<Board> blist() {
+	public List<Board> blist(String searchTitle, String searchText) {
 		BoardDAO bd = sqlSession.getMapper(BoardDAO.class);
-		List<Board> blist = null;
+
+		Map<String, String> search = new HashMap<>();
+
+		search.put("searchTitle", searchTitle);
+		search.put("searchText", searchText);
+
+		List<Board> boardList = null;
+
 		try {
-			blist = bd.blist();
+			boardList = bd.blist(search);
 		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
-		return blist;
+
+		return boardList;
 	}
 
 	public int getCount() {

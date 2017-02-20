@@ -1,30 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset=UTF-8">
 <title>[ main.jsp ]</title>
+<style>
+.wrapper {
+	width : 700px;
+	margin : 0 auto;
+	<!-- text-align:center; -->
+}
+
+</style>
 </head>
 <body>
-
 <div class="wrapper">
 
-<form action="" method="post">
-<select>
-	<option>제목</option>
-	<option>작성자</option>
-	<option>내용</option>
-</select>
-<input type="text" name="">
-<input type="submit" value="검색">
+<form action="main" method="get"> <!-- 아직 없는 action -->
+	<select name="searchTitle">
+		<option value="title" >제목</option>
+		<option value="custid">작성자</option>
+		<option value="content">내용</option>
+	</select>
+	<input type="text" name="searchText" />
+	<input type="submit" value="검색" />
 </form>
-
-
-
 
 	<h2>[ 게시글 목록]</h2>
 	
-	<table board="1">
+	<table border="1">
 		<tr>
 			<th>글 번호</th>
 			<th>제목</th>
@@ -35,8 +40,8 @@
 		<c:if test="${not empty blist}">
 			<c:forEach var="board" items="${blist}">
 			<tr>
-				<td><a href="selectB=${board.boardnum}">${board.boardnum}</a></td>
-				<td>${board.title}</td>
+				<td>${board.boardnum}</td>
+				<td><a href="selectB?boardnum=${board.boardnum}">${board.title}</a></td>
 				<td>${board.custid}</td>
 				<td>${board.inputdate}</td>
 				<td>${board.hits}</td>
