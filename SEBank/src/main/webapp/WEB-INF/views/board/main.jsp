@@ -13,6 +13,14 @@
 }
 
 </style>
+<script>
+function pagingForSubmit(currentPage) {
+	var form = document.getElementById("pagingForm");
+	var page = document.getElementById("page");
+	page.value = currentPage;
+	form.submit();
+}
+</script>
 </head>
 <body>
 
@@ -27,15 +35,16 @@
 <h5>navi : ${navi}</h5>
 
 <div class="wrapper">
-
-<form action="main" method="get"> <!-- 아직 없는 action -->
+<form id="pagingForm" action="main" method="get">
 	<select name="searchTitle">
+		<option value="" >검색할래?</option>
 		<option value="title" >제목</option>
 		<option value="custid">작성자</option>
 		<option value="content">내용</option>
 	</select>
-	<input type="text" name="searchText" />
-	<input type="submit" value="검색" />
+	<input type="hidden" name="page" id="page"/>
+	<input type="text" name="searchText" value="${searchText}" />
+	<input type="button" onclick="pagingForSubmit(1)" value="검색" />
 </form>
 
 	<h2>[ 게시글 목록]</h2>
@@ -67,14 +76,20 @@
 	</table>
 
 <div>
-paging 처리할 부분
+<a href="javascript:pagingForSubmit(1)">◁◁</a> &nbsp;
+<a href="javascript:pagingForSubmit(${navi.currentPage - 1})">◀</a> &nbsp;
+<c:forEach var="counter" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
+	<a href="javascript:pagingForSubmit(${counter})">${counter}</a> &nbsp;
+</c:forEach>
+<a href="javascript:pagingForSubmit(${navi.currentPage + 1})">▶</a> &nbsp;
+<a href="javascript:pagingForSubmit(${navi.totalPageCount})">▷▷ </a>
 </div>
 
 <div>
 <a href="${pageContext.request.contextPath}/">돌아갈래용</a><br>
 <a href="insertB">글쓸래용</a>
 </div>
-	
+
 </div>
 </body>
 </html>

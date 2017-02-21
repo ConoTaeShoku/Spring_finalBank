@@ -72,13 +72,12 @@ public class BoardController {
 		
 		int total = br.getCount(searchTitle, searchText);
 		PageNavigator navi= new PageNavigator(countPerPage, pagePerGroup, page, total);
-		se.setAttribute("blist", br.blist(searchTitle, searchText, page, navi.getCountPerPage())); // loop 돌려서 출력
+		se.setAttribute("blist", br.blist(searchTitle, searchText, page, countPerPage)); // loop 돌려서 출력
 		
 		model.addAttribute("total",total); //글 개수 출력을 위해
 		model.addAttribute("searchTitle",searchTitle); // 마지막으로 검색한 데이터가 무엇인지 알기 위해
 		model.addAttribute("searchText",searchText); // 마지막으로 검색한 데이터가 무엇인지 알기 위해
 		model.addAttribute("navi",navi); // 페이징을 위해
-		
 		return "board/main";
 	}
 
