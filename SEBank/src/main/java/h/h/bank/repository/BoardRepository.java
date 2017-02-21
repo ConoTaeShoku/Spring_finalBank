@@ -62,14 +62,14 @@ public class BoardRepository {
 		return result;
 	}
 
-	public List<Board> blist(String searchTitle, String searchText, int CurrentPage, int CountPerPage) {
+	public List<Board> blist(String searchTitle, String searchText, int currentPage, int countPerPage) {
 		BoardDAO bd = sqlSession.getMapper(BoardDAO.class);
 		Map<String, Object> search = new HashMap<>();
 		search.put("searchTitle", searchTitle);
 		search.put("searchText", searchText);
-		int start = (CurrentPage-1) * CountPerPage;
-		int end = CurrentPage * CountPerPage;
+		int start = (currentPage-1) *countPerPage +1;
 		search.put("start", start);
+		int end = start + countPerPage - 1;
 		search.put("end", end);
 		List<Board> boardList = null;
 		try {

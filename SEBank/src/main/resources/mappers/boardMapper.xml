@@ -11,7 +11,7 @@
 	</insert>
 	
 	<select id="select" resultType="Board">
-		SELECT * FROM SB_BOARD WHERE boardnumm=#{boardnum}
+		SELECT * FROM SB_BOARD WHERE boardnum=#{boardnum}
 	</select>
 	
 	<update id="update" parameterType="Board">
@@ -24,22 +24,25 @@
 	</delete>
 	
 	<select id="blist" resultType="Board" parameterType="map">
-	SELECT * FROM ( SELECT ROWNUM RNUM, N.* from
-		(SELECT * FROM SB_BOARD ORDER BY INPUTDATE DESC) N) WHERE
-		<if test="searchTitle != null and searchText != null">
+	SELECT * FROM (
+	  SELECT ROWNUM RNUM, B.* from
+		(SELECT * FROM SB_BOARD
+			<if test="searchTitle != null and searchText != null">
 			<choose>
 				<when test="searchTitle == 'custid'">
-					 custid like '%'||#{searchText}||'%' AND 
+				  WHERE custid like '%'||#{searchText}||'%'
 				</when>
 				<when test="searchTitle == 'title'">
-					 title like '%'||#{searchText}||'%' AND
+				  WHERE title like '%'||#{searchText}||'%'
 				</when>
 				<when test="searchTitle == 'content'">
-					 content like '%'||#{searchText}||'%' AND
+				  WHERE content like '%'||#{searchText}||'%'
 				</when>
 			</choose>
-		</if>
-		RNUM BETWEEN #{start} AND #{end} 
+			</if>
+			ORDER BY INPUTDATE DESC
+		) B )
+		   WHERE RNUM BETWEEN #{start} AND #{end}
 	</select>
 	
 	<select id="getCount" parameterType="map" resultType="int">
