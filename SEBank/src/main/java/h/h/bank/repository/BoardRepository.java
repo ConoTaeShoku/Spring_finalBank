@@ -62,31 +62,33 @@ public class BoardRepository {
 		return result;
 	}
 
-	public List<Board> blist(String searchTitle, String searchText) {
+	public List<Board> blist(String searchTitle, String searchText, int CurrentPage, int CountPerPage) {
 		BoardDAO bd = sqlSession.getMapper(BoardDAO.class);
-
-		Map<String, String> search = new HashMap<>();
-
+		Map<String, Object> search = new HashMap<>();
 		search.put("searchTitle", searchTitle);
 		search.put("searchText", searchText);
-
+		int start = (CurrentPage-1) * CountPerPage;
+		int end = CurrentPage * CountPerPage;
+		search.put("start", start);
+		search.put("end", end);
 		List<Board> boardList = null;
-
 		try {
 			boardList = bd.blist(search);
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-
 		return boardList;
 	}
 
-	public int getCount() {
+	public int getCount(String searchTitle, String searchText) {
 		BoardDAO bd = sqlSession.getMapper(BoardDAO.class);
+		Map<String, String> search = new HashMap<>();
+		search.put("searchTitle", searchTitle);
+		search.put("searchText", searchText);
 		int result = 0;
 		try {
-			result = bd.getCount();
+			result = bd.getCount(search);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

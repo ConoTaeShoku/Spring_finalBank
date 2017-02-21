@@ -21,9 +21,10 @@ public interface BoardDAO {
 	//column명은 변수로 받을 수 없음
 	// like 앞쪽에 있는 변수명은 외부에서 전달받은 값으로 못함
 	// 동적 sql (=제어문이 있음, if문이 있음)
-	public List<Board> blist(Map<String, String> search) throws Exception;
+	public List<Board> blist(Map<String, Object> search) throws Exception;
+	//public List<Board> blist(String #{0}, String #{1}) throws Exception;
 	
-	public int getCount () throws Exception;
+	public int getCount (Map<String, String> search) throws Exception;
 	//public int getCount (String searchField, String searchText) throws Exception;
 	
 	public int addHits (int boardnum) throws Exception;

@@ -23,25 +23,40 @@
 		DELETE FROM SB_BOARD WHERE boardnum=#{boardnum}
 	</delete>
 	
-<select id="blist" resultType="Board" parameterType="map">
-	SELECT * FROM SB_BOARD
-	<if test="searchTitle != null and searchText != null">
-	<choose>
-		<when test="searchTitle == 'custid'">
-		 WHERE custid like '%'||#{searchText}||'%'
-		</when>
-		<when test="searchTitle == 'title'">
-		 WHERE title like '%'||#{searchText}||'%'
-		</when>
-		<when test="searchTitle == 'content'">
-		 WHERE content like '%'||#{searchText}||'%'
-		</when>
-	</choose>
-	</if>
-</select>
+	<select id="blist" resultType="Board" parameterType="map">
+	SELECT * FROM ( SELECT ROWNUM RNUM, N.* from
+		(SELECT * FROM SB_BOARD ORDER BY INPUTDATE DESC) N) WHERE
+		<if test="searchTitle != null and searchText != null">
+			<choose>
+				<when test="searchTitle == 'custid'">
+					 custid like '%'||#{searchText}||'%' AND 
+				</when>
+				<when test="searchTitle == 'title'">
+					 title like '%'||#{searchText}||'%' AND
+				</when>
+				<when test="searchTitle == 'content'">
+					 content like '%'||#{searchText}||'%' AND
+				</when>
+			</choose>
+		</if>
+		RNUM BETWEEN #{start} AND #{end} 
+	</select>
 	
-	<select id="getCount" parameterType="String" resultType="int">
+	<select id="getCount" parameterType="map" resultType="int">
 		SELECT COUNT(*) FROM SB_BOARD
+		<if test="searchTitle !=null and searchText !=null">
+			<choose>
+				<when test="searchTitle=='custid'">
+					WHERE CUSTID = '%'||#{searchText}||'%'
+				</when>
+				<when test="searchTitle=='title'">
+					WHERE TITLE = '%'||#{searchText}||'%'
+				</when>
+				<when test="searchTitle=='content'">
+					WHERE CONTENT = '%'||#{searchText}||'%'
+				</when>
+			</choose>
+		</if>
 	</select>
 	
 	<update id="addHits" parameterType="int">

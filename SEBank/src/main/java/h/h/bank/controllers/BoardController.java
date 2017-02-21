@@ -33,7 +33,7 @@ public class BoardController {
 	@RequestMapping(value = "/insertB", method = RequestMethod.POST)
 	public String write(Board b) {
 		intResult("새 글 등록", br.insert(b));
-		return "redirect:/main";// *****
+		return "redirect:/main";
 	}
 
 	@RequestMapping(value = "/selectB", method = RequestMethod.GET)
@@ -50,14 +50,14 @@ public class BoardController {
 
 	@RequestMapping(value = "/updateB", method = RequestMethod.POST)
 	public String modify(Board b) {
-		intResult("새 글 등록", br.update(b));
-		return "redirect:/main"; // *****
+		intResult("글 내용 수정", br.update(b));
+		return "redirect:/main";
 	}
 
 	@RequestMapping(value = "/deleteB", method = RequestMethod.GET)
 	public String delete(Board b) {
-		intResult("새 글 등록", br.delete(b));
-		return "redirect:/main"; // *****
+		intResult("글 삭제", br.delete(b));
+		return "redirect:/main";
 	}
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -70,9 +70,15 @@ public class BoardController {
 			// 1아니면 내가 요청한 page
 			Model model) {
 		
-		int total = br.getCount();
+		int total = br.getCount(searchTitle, searchText);
 		PageNavigator navi= new PageNavigator(countPerPage, pagePerGroup, page, total);
-		se.setAttribute("blist", br.blist(searchTitle, searchText));
+		se.setAttribute("blist", br.blist(searchTitle, searchText, navi.getCurrentPage(), navi.getCountPerPage())); // loop 돌려서 출력
+		
+		model.addAttribute("total",total); //글 개수 출력을 위해
+		model.addAttribute("searchTitle",searchTitle); // 마지막으로 검색한 데이터가 무엇인지 알기 위해
+		model.addAttribute("searchText",searchText); // 마지막으로 검색한 데이터가 무엇인지 알기 위해
+		model.addAttribute("navi",navi); // 페이징을 위해
+		
 		return "board/main";
 	}
 
@@ -86,10 +92,10 @@ public class BoardController {
 			r += "성공~";
 			break;
 		}
-		se.setAttribute("result", r);
+		se.setAttribute("resultB", r);
 	}
 
 	private void stringResult(String result) {
-		se.setAttribute("result", result);
+		se.setAttribute("resultB", result);
 	}
 }

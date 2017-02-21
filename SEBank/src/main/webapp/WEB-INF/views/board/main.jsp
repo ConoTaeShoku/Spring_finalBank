@@ -15,6 +15,17 @@
 </style>
 </head>
 <body>
+
+<c:if test="${not empty resultB}">
+<script>alert('${resultB}');</script>
+<c:remove var="resultB" scope="session" />
+</c:if>
+
+<h5>total : ${total}</h5>
+<h5>searchTitle : ${searchTitle}</h5>
+<h5>searchText : ${searchText}</h5>
+<h5>navi : ${navi}</h5>
+
 <div class="wrapper">
 
 <form action="main" method="get"> <!-- 아직 없는 action -->
