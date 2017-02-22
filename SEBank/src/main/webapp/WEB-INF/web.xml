@@ -4,6 +4,33 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/spring/root-context.xml</param-value>
   </context-param>
+  
+  
+  <!-- filter-> client가 요청한 값 중 인코딩을 해야 하는 데이터들을 걸러줌 -->
+ <filter>
+<!-- filter-name은 항상 encodingFilter로 해야(바꿈안됌) -->
+<filter-name>
+encodingFilter
+</filter-name>
+<filter-class>
+org.springframework.web.filter.CharacterEncodingFilter
+</filter-class>
+<init-param>
+<param-name>encoding</param-name>
+<param-value>UTF-8</param-value>
+</init-param>
+ </filter>
+ 
+
+<filter-mapping>
+<filter-name>
+encodingFilter
+</filter-name>
+<url-pattern>
+/*
+</url-pattern>
+ </filter-mapping>
+  
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
