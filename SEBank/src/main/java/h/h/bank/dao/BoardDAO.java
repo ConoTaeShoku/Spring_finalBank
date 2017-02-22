@@ -14,7 +14,7 @@ public interface BoardDAO {
 	public int update(Board b) throws Exception;
 	//이 경우도 동적 query가 필요 - 첨부파일을 올린 경우와 올리지 않은 경우를 구분하기 위함
 	
-	public int delete(Board b) throws Exception;
+	public int delete(int bnum) throws Exception;
 
 	//public List<Board> blist() throws Exception;
 	//public List<Board> list(String searchField, String searchText) throws Exception;

@@ -25,7 +25,7 @@ function formCheck() {
 <h2>[게시판 글 쓰기]</h2>
 <br>
 <form action="insertB" method="post">
-	<input type="hidden" name="custid" id="custid" value="${loginId}" />
+	
 	<table>
 		<tr>
 			<td>제목</td>
@@ -35,10 +35,14 @@ function formCheck() {
 			<td>내용</td>
 			<td><textarea rows=5 name="content" id="content" style="width:98%;"></textarea></td>
 		</tr>
+		<tr>
+			<td>파일첨부</td>
+			<td><input type="file" name="upload" /></td>
+		</tr>
 	</table><br>
 	<div class="center">
-		<input type="reset" value="초기화">
 		<input type="submit"value="저장" onclick="return formCheck()">
+		<input type="reset" value="초기화">
 	</div>
 </form>
 <div>

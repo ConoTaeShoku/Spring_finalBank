@@ -5,9 +5,21 @@
 <head>
 <meta charset=UTF-8">
 <title>[ read.jsp ]</title>
+<script>
+function deleteCheck(bnum) {
+	var answer = confirm("글을 삭제하시겠습니까?");
+	if(answer) {
+		location.href = "deleteB?bnum="+bnum;
+	}
+}
+</script>
 </head>
 <body>
 
+<c:if test="${not empty resultR}">
+<script>alert('${resultR}');</script>
+<c:remove var="resultR" scope="session" />
+</c:if>
 
 <h2>[게시판 글 읽기]</h2>
 
@@ -26,7 +38,7 @@
 	</tr>
 	<tr>
 		<td>content</td>
-		<td><textarea rows=5 name="content" id="content" style="width:98%;" readonly>${readB.content}</textarea></td>
+		<td><pre>${readB.content}</pre></td>
 	</tr>
 	<tr>
 		<td>inputdate</td>
@@ -46,13 +58,47 @@
 	</tr>
 </table><br>
 
-<div>
+<div class="menu">
 	<c:if test="${readB.custid == loginId}">
 		<a href="updateB?boardnum=${readB.boardnum}">수정하기</a><br>
-		<a href="deleteB?b=${readB}">삭제하기</a>
+		<a href="javascript:deleteCheck(${readB.boardnum})">제대로 삭제하기</a><br>
+		<a href="deleteB?bnum=${readB.boardnum}">대충 삭제하기</a><br>
+		<a href="main">목록으로</a><br>
 	</c:if>
 </div>
 
-<a href="main">목록으로</a><br>
+<form action="insertR" method="post">
+	<input type="text" name="text" id="text" />
+	<input type="hidden" name="boardnum" id="boardnum" value="${readB.boardnum}" />
+	<input type="submit" value="댓글등록" />
+</form>
+
+<table>
+	<tr>
+		<th>custid</th>
+		<th>text</th>
+		<th>inputdate</th>
+		<th>actions</th>
+	</tr>
+<c:if test="${empty rlist}">
+	<tr>
+		<td colspan="4">댓글이 없어용~~~~~~~</td>
+	</tr>
+</c:if>
+<c:if test="${not empty rlist}">
+	<c:forEach var="reply" items="${rlist}">
+	<tr>
+		<td>${reply.custid}</td>
+		<td>${reply.text}</td>
+		<td>${reply.inputdate}</td>
+		<td>
+			<input type="button" value="수정" />
+			<input type="button" value="삭제" />
+		</td>
+	</tr>
+	</c:forEach>
+</c:if>
+</table>
+
 </body>
 </html>

@@ -30,6 +30,7 @@ function formCheck() {
 	<tr>
 		<td>boardnum</td>
 		<td>${readB.boardnum}</td>
+		<input type="hidden" name="boardnum" value="${readB.boardnum}" />
 	</tr>
 	<tr>
 		<td>custid</td>
@@ -37,7 +38,7 @@ function formCheck() {
 	</tr>
 	<tr>
 		<td>title</td>
-		<td><input type="text" value="${readB.title}"></td>
+		<td><input type="text" name="title" id="title" value="${readB.title}"></td>
 	</tr>
 	<tr>
 		<td>content</td>

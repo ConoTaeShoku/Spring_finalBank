@@ -28,6 +28,9 @@ function pagingForSubmit(currentPage) {
 <script>alert('${resultB}');</script>
 <c:remove var="resultB" scope="session" />
 </c:if>
+<c:if test="${not empty resultR}">
+<c:remove var="resultR" scope="session" />
+</c:if>
 
 <h5>total : ${total}</h5>
 <h5>searchTitle : ${searchTitle}</h5>

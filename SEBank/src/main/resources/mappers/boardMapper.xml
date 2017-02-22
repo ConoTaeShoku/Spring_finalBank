@@ -6,8 +6,16 @@
 <mapper namespace="h.h.bank.dao.BoardDAO">
 
 	<insert id="insert" parameterType="Board">
-		INSERT INTO SB_BOARD (boardnum, custid, title, content)
-		VALUES (sb_board_seq.nextval, #{custid}, #{title}, #{content})
+		INSERT INTO SB_BOARD
+		VALUES (sb_board_seq.nextval, #{custid}, #{title}, #{content},
+		sysdate, 0,
+		<if test="originalfile != null and savedfile != null">
+			#{originalfile}, #{savedfile}
+		</if>
+		<if test="originalfile == null and savedfile == null">
+			null, null
+		</if>
+		)
 	</insert>
 	
 	<select id="select" resultType="Board">
@@ -19,8 +27,8 @@
 		WHERE boardnum=#{boardnum}
 	</update>
 	
-	<delete id="delete" parameterType="Board">
-		DELETE FROM SB_BOARD WHERE boardnum=#{boardnum}
+	<delete id="delete" parameterType="int">
+		DELETE FROM SB_BOARD WHERE boardnum=#{bnum}
 	</delete>
 	
 	<select id="blist" resultType="Board" parameterType="map">

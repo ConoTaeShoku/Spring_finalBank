@@ -10,14 +10,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import h.h.bank.repository.BoardRepository;
+import h.h.bank.repository.ReplyRepository;
 import h.h.bank.util.PageNavigator;
 import h.h.bank.vo.Board;
 
+//@SessionAttribute 를 추가하면 절차를 따짐
+// 즉, 주소줄에 url을 입력해서 함부로 접근하는 거 막을 수 있음
 @Controller
 public class BoardController {
 
 	@Autowired
 	BoardRepository br;
+	
+	@Autowired
+	ReplyRepository rr;
 
 	@Autowired
 	HttpSession se;
@@ -32,6 +38,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/insertB", method = RequestMethod.POST)
 	public String write(Board b) {
+		b.setCustid((String)se.getAttribute("loginId"));
 		intResult("새 글 등록", br.insert(b));
 		return "redirect:/main";
 	}
@@ -40,6 +47,7 @@ public class BoardController {
 	public String read(int boardnum) {
 		se.setAttribute("readB", br.select(boardnum));
 		br.addHits(boardnum);
+		se.setAttribute("rlist", rr.rlist(boardnum));
 		return "board/read";
 	}
 
@@ -55,8 +63,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/deleteB", method = RequestMethod.GET)
-	public String delete(Board b) {
-		intResult("글 삭제", br.delete(b));
+	public String delete(int bnum) {
+		intResult("글 삭제", br.delete(bnum));
 		return "redirect:/main";
 	}
 

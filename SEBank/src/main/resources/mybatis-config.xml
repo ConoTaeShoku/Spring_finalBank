@@ -8,14 +8,14 @@
 	<typeAliases>
 		<typeAlias type="h.h.bank.vo.Customer" alias="Customer"/>
 		<typeAlias type="h.h.bank.vo.Board" alias="Board"/>
-<!--		<typeAlias type="h.h.bank.vo.Reply" alias="Reply"/> -->
+		<typeAlias type="h.h.bank.vo.Reply" alias="Reply"/>
 	</typeAliases>
 	
 	<!-- 매퍼 파일 위치 설정 -->
 	<mappers>
 		<mapper resource="mappers/customerMapper.xml" />
 		<mapper resource="mappers/boardMapper.xml" />
-<!--		<mapper resource="mappers/replyMapper.xml" /> -->
+		<mapper resource="mappers/replyMapper.xml" />
 	</mappers>
 
 </configuration>

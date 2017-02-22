@@ -51,11 +51,11 @@ public class BoardRepository {
 
 	}
 
-	public int delete(Board b) {
+	public int delete(int bnum) {
 		BoardDAO bd = sqlSession.getMapper(BoardDAO.class);
 		int result = 0;
 		try {
-			result = bd.delete(b);
+			result = bd.delete(bnum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
