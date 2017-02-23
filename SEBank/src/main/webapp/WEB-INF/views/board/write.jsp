@@ -24,7 +24,7 @@ function formCheck() {
 <body>
 <h2>[게시판 글 쓰기]</h2>
 <br>
-<form action="insertB" method="post">
+<form action="insertB" method="post" enctype="multipart/form-data">
 	
 	<table>
 		<tr>
@@ -37,7 +37,7 @@ function formCheck() {
 		</tr>
 		<tr>
 			<td>파일첨부</td>
-			<td><input type="file" name="upload" /></td>
+			<td><input type="file" name="upload" id="upload" /></td>
 		</tr>
 	</table><br>
 	<div class="center">

@@ -27,15 +27,21 @@ public class FileService {
 		//저장 폴더가 없으면 생성
 		File path = new File(uploadPath);
 		if (!path.isDirectory()) {
-			path.mkdirs();
+			path.mkdirs(); //여러 경로의 directory를 만들라는 뜻 *****
 		}
 		
 		//원본 파일명
 		String originalFilename = mfile.getOriginalFilename();
+		//file이 올 것이라는 것만 알고, file명은 미리 알지못함, 뽑아내야함 *****
 		
 		//저장할 파일명을 오늘 날짜의 년월일로 생성
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		//날짜를 문자로 *****
 		String savedFilename = sdf.format(new Date());
+		//Date 보단 calendar type이 더 선호됨 하지만 calendar type은 현재 날짜 조작하기 위함
+		//Date는 현재 날짜 그대로 저장하는 경우만 *****
+		//이름이 중복되면 전에 업로드한 파일이 지워짐 *****
 		
 		//원본 파일의 확장자
 		String ext;
@@ -46,7 +52,7 @@ public class FileService {
 		}
 		//확장자가 있는 경우
 		else {
-			ext = "." + originalFilename.substring(lastIndex + 1);
+			ext = originalFilename.substring(lastIndex);
 		}
 
 		//저장할 전체 경로를 포함한 File 객체
@@ -77,6 +83,8 @@ public class FileService {
 	 * @param fullpath 삭제할 파일의 경로
 	 * @return 삭제 여부
 	 */
+	//게시물을 지운경우 *****
+	//실제 파일은 HDD, 파일명은 oracle db *****
 	public static boolean deleteFile(String fullpath) {
 		//파일 삭제 여부를 리턴할 변수
 		boolean result = false;

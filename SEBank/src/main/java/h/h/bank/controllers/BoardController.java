@@ -1,16 +1,27 @@
 package h.h.bank.controllers;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import h.h.bank.repository.BoardRepository;
 import h.h.bank.repository.ReplyRepository;
+import h.h.bank.util.FileService;
 import h.h.bank.util.PageNavigator;
 import h.h.bank.vo.Board;
 
@@ -30,6 +41,7 @@ public class BoardController {
 	
 	final int countPerPage = 10; // page당 글 수
 	final int pagePerGroup = 5; //페이지 그룹에 표시되는 그룹 수
+	final String uploadPath = "/boardfile"; //나중에 어디에 upload되는지 위치 반드시 확인할 것
 
 	@RequestMapping(value = "/insertB", method = RequestMethod.GET)
 	public String writeForm() {
@@ -37,8 +49,13 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/insertB", method = RequestMethod.POST)
-	public String write(Board b) {
+	public String write(Board b, MultipartFile upload) {
 		b.setCustid((String)se.getAttribute("loginId"));
+		if(!upload.isEmpty()) {
+			String savedFile = FileService.saveFile(upload, uploadPath);
+			b.setOriginalfile(upload.getOriginalFilename());
+			b.setSavedfile(savedFile);
+		}
 		intResult("새 글 등록", br.insert(b));
 		return "redirect:/main";
 	}
@@ -49,6 +66,40 @@ public class BoardController {
 		br.addHits(boardnum);
 		se.setAttribute("rlist", rr.rlist(boardnum));
 		return "board/read";
+	}
+	
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public String download(int boardnum, HttpServletResponse res) {
+		Board board=br.select(boardnum);
+		String originalfile = board.getOriginalfile();
+		//사용자 측에서 다운로드 받도록 하기 위해서 response 객체의 해더를 조작함
+		try {
+			//KEY와 값의 쌍 (F12로 확인)
+			res.setHeader("Content-Disposition",
+					"attachment;filename="+URLEncoder.encode(originalfile, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		String fullpath=uploadPath+"/"+board.getSavedfile();
+		ServletOutputStream fileout = null;
+		FileInputStream filein = null;
+		try {
+			filein = new FileInputStream(fullpath);
+			fileout = res.getOutputStream();
+			FileCopyUtils.copy(filein, fileout);
+		} catch (FileNotFoundException e) { //filein
+			e.printStackTrace();
+		} catch (IOException e) { //fileout
+			e.printStackTrace();
+		} finally {
+			try {
+				if(filein!=null) filein.close();
+				if (fileout!=null) fileout.close(); //file이 저장이 안됨
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null; //딱히 돌아갈 곳이 없는 경우
 	}
 
 	@RequestMapping(value = "/updateB", method = RequestMethod.GET)

@@ -56,6 +56,11 @@ function deleteCheck(bnum) {
 		<td>savedfile</td>
 		<td>${readB.savedfile}</td>
 	</tr>
+<c:if test ="${readB.originalfile != null}">
+	<tr>
+		<td rowspan="2"><a href="download?boardnum=${readB.boardnum}">첨부파일 다운받기</a></td>
+	</tr>	
+</c:if>	 
 </table><br>
 
 <div class="menu">
