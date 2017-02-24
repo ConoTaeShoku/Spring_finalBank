@@ -41,6 +41,20 @@ encodingFilter
       <param-name>contextConfigLocation</param-name>
       <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
     </init-param>
+    
+    
+<!-- servlet 안에! -->    
+<!-- 404 에러 페이지로 넘기지 않고 익셉션을 발생 -->
+<init-param>
+  		<param-name>throwExceptionIfNoHandlerFound</param-name>
+ 		<param-value>true</param-value>
+</init-param>
+<!-- /404 에러 페이지로 넘기지 않고 익셉션을 발생 -->  
+    
+    
+<!-- .java file은 기계어로 변환되어 메모리로 올라와야 실행 가능 -->
+<!-- 요청이 없어도 미리 메모리에 올려놓으라는 뜻 -->
+<!-- 1이 우선순위가 가장 높음 -->
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>

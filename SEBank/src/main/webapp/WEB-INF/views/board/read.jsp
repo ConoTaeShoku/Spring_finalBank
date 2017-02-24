@@ -63,6 +63,8 @@ function deleteCheck(bnum) {
 </c:if>	 
 </table><br>
 
+<img src="download?boardnum=${readB.boardnum}" />
+
 <div class="menu">
 	<c:if test="${readB.custid == loginId}">
 		<a href="updateB?boardnum=${readB.boardnum}">수정하기</a><br>
